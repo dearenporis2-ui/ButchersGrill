@@ -4,946 +4,627 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Butcher's Grill — Seychelles</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --fire:#C84B11;--fire2:#e8622e;--fire3:#ff8c5a;
+  --char:#0d0600;--char2:#1a0c04;--char3:#2a1508;
+  --cream:#fdf8f2;--smoke:#f0e8db;--gold:#d4950a;
+  --ash:#8a7060;--w:#fff;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--char);overflow-x:hidden}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--char)}
+::-webkit-scrollbar-thumb{background:var(--fire)}
+img{display:block}
+/* ─── CURSOR ─── */
+.cursor{position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:difference}
+.cursor-dot{width:8px;height:8px;background:#fff;border-radius:50%;transform:translate(-50%,-50%);transition:transform .15s}
+.cursor-ring{width:40px;height:40px;border:1px solid rgba(255,255,255,.5);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,transform .15s var(--ease)}
+body:has(a:hover) .cursor-ring,body:has(button:hover) .cursor-ring{width:60px;height:60px}
+/* ─── NAV ─── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:2rem 5vw;display:flex;align-items:center;justify-content:space-between;transition:all .5s var(--ease)}
+#nav.solid{padding:1.1rem 5vw;background:rgba(13,6,0,.96);backdrop-filter:blur(20px)}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.08em;color:var(--w);text-decoration:none;line-height:1}
+.logo span{color:var(--fire)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);text-decoration:none;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:1px;background:var(--fire);transition:width .3s}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%}
+.nav-btn{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8);padding:.55rem 1.5rem;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .25s}
+.nav-btn:hover{background:var(--fire);border-color:var(--fire);color:#fff}
+/* ─── HERO ─── */
+.hero{height:100vh;min-height:700px;position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;align-items:flex-end}
+.hero-parallax{position:absolute;inset:-20%;background:url('https://images.unsplash.com/photo-1558030006-450675393462?w=1800&q=85') center/cover no-repeat;will-change:transform}
+.hero-grad{position:absolute;inset:0;background:linear-gradient(110deg,rgba(13,6,0,.97) 0%,rgba(13,6,0,.75) 45%,rgba(13,6,0,.15) 100%)}
+.hero-grain{position:absolute;inset:0;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
+.hero-left{position:relative;z-index:2;padding:0 5vw 8rem;animation:riseUp .9s var(--ease) .1s both}
+.hero-right{position:relative;z-index:2;padding:0 5vw 8rem;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;animation:riseUp .9s var(--ease) .25s both}
+@keyframes riseUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.8rem;font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--fire);margin-bottom:1.6rem}
+.hero-rule{width:40px;height:1px;background:var(--fire)}
+.hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,10vw,11rem);line-height:.88;color:#fff;letter-spacing:.03em;margin-bottom:2rem}
+.hero-h1 .slash{color:var(--fire)}
+.hero-sub{font-size:.95rem;color:rgba(255,255,255,.42);font-weight:300;line-height:1.9;max-width:380px;margin-bottom:2.8rem}
+.btn-cta{display:inline-flex;align-items:center;gap:.8rem;background:var(--fire);color:#fff;border:none;padding:1.1rem 2.5rem;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.btn-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);transform:translateX(-100%);transition:transform .5s}
+.btn-cta:hover{background:var(--fire2);transform:translateY(-2px);box-shadow:0 12px 35px rgba(200,75,17,.45)}
+.btn-cta:hover::before{transform:translateX(100%)}
+.btn-cta svg{width:16px;height:16px;transition:transform .25s}
+.btn-cta:hover svg{transform:translateX(4px)}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);margin-bottom:3rem;width:280px}
+.hstat{background:rgba(13,6,0,.6);padding:1.2rem 1.5rem;backdrop-filter:blur(10px)}
+.hstat-n{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--fire);line-height:1}
+.hstat-l{font-size:.62rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:.2rem}
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:.6rem;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25)}
+.scroll-bar{width:1px;height:60px;background:linear-gradient(to bottom,rgba(255,255,255,.3),transparent);animation:scrollAnim 2.2s ease-in-out infinite}
+@keyframes scrollAnim{0%,100%{transform:scaleY(1);opacity:.3}50%{transform:scaleY(.5);opacity:1}}
+/* ─── MARQUEE ─── */
+.marquee{background:var(--fire);overflow:hidden;padding:.9rem 0}
+.mtrack{display:flex;animation:marquee 20s linear infinite;white-space:nowrap}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mitem{display:inline-flex;align-items:center;gap:1.2rem;padding:0 2.5rem;font-size:.68rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.88)}
+.mdot{width:4px;height:4px;background:rgba(255,255,255,.4);border-radius:50%;flex-shrink:0}
+/* ─── SECTION SCAFFOLDING ─── */
+.sec{padding:7rem 5vw}
+.stag{font-size:.68rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--fire);display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem}
+.stag::before{content:'';width:30px;height:1px;background:var(--fire)}
+.sh{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,6.5rem);line-height:.9;letter-spacing:.03em;color:var(--char)}
+.sh em{color:var(--fire);font-style:italic;font-family:'Cormorant Garamond',serif;font-weight:700}
+/* ─── FEATURED DISHES ─── */
+.featured{background:var(--cream)}
+.dishes-layout{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:500px 280px;gap:8px;margin-top:3rem}
+.dc{position:relative;overflow:hidden;cursor:pointer}
+.dc:nth-child(1){grid-row:1/3}
+.dc-img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.dc:hover .dc-img{transform:scale(1.06)}
+.dc-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,6,0,.92) 0%,rgba(13,6,0,.35) 40%,rgba(13,6,0,.05) 100%);transition:opacity .35s}
+.dc:hover .dc-grad{opacity:.8}
+.dc-info{position:absolute;bottom:0;left:0;right:0;padding:2rem 2rem 2.2rem;transform:translateY(6px);transition:transform .3s var(--ease)}
+.dc:hover .dc-info{transform:none}
+.dc-tag{display:inline-block;background:var(--fire);color:#fff;font-size:.58rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:.28rem .7rem;margin-bottom:.7rem}
+.dc-cat{font-size:.62rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--fire);margin-bottom:.4rem}
+.dc-name{font-family:'Bebas Neue',sans-serif;color:#fff;line-height:.95;letter-spacing:.04em}
+.dc:nth-child(1) .dc-name{font-size:3.2rem}
+.dc:nth-child(n+2) .dc-name{font-size:1.9rem}
+.dc-price{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:.4rem;font-weight:300}
+/* ─── MENU FULL ─── */
+.menu-sec{background:var(--smoke)}
+.menu-tabs{display:flex;gap:0;flex-wrap:wrap;margin:2.5rem 0 0;border-bottom:1px solid rgba(13,6,0,.1)}
+.mtab{background:transparent;border:none;border-bottom:2px solid transparent;padding:.7rem 1.6rem;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;color:var(--ash);transition:all .2s;margin-bottom:-1px}
+.mtab:hover{color:var(--char)}
+.mtab.on{color:var(--fire);border-bottom-color:var(--fire)}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(13,6,0,.07);margin-top:2px}
+.mi{background:var(--cream);display:flex;align-items:flex-start;gap:1.1rem;padding:1.6rem;transition:background .25s,transform .2s}
+.mi:hover{background:var(--char);transform:none}
+.mi:hover .mi-n{color:#fff}
+.mi:hover .mi-d{color:rgba(255,255,255,.35)}
+.mi:hover .mi-p{color:var(--fire3)}
+.mi-img{width:74px;height:74px;object-fit:cover;flex-shrink:0}
+.mi-n{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;transition:color .25s;line-height:1.2}
+.mi-d{font-size:.78rem;color:var(--ash);line-height:1.6;margin:.3rem 0 .5rem;transition:color .25s}
+.mi-p{font-size:.78rem;font-weight:500;color:var(--fire);transition:color .25s}
+/* ─── STORY ─── */
+.story{display:grid;grid-template-columns:55% 45%;min-height:700px}
+.story-vis{position:relative;overflow:hidden}
+.story-bg{position:absolute;inset:-20%;background:url('https://images.unsplash.com/photo-1553829176-61484f865ac3?w=1000&q=80') center/cover no-repeat;will-change:transform}
+.story-vgrad{position:absolute;inset:0;background:linear-gradient(to right,rgba(13,6,0,0) 60%,rgba(13,6,0,.8) 100%)}
+.story-badge{position:absolute;bottom:3rem;left:3rem;background:var(--fire);padding:1.5rem 2rem}
+.story-badge-n{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:#fff;line-height:1}
+.story-badge-l{font-size:.65rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:.2rem}
+.story-inset{position:absolute;bottom:3rem;right:-1.5rem;width:200px;height:260px;object-fit:cover;border:5px solid var(--cream);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.story-txt{background:var(--char);padding:6rem 5rem 6rem 5rem;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.story-bnum{position:absolute;right:-1rem;bottom:-3rem;font-family:'Bebas Neue',sans-serif;font-size:22rem;color:rgba(200,75,17,.05);line-height:1;pointer-events:none;user-select:none}
+.story-txt .stag{color:var(--fire)}
+.story-txt .sh{color:#fff;margin:.4rem 0 1.8rem}
+.story-p{font-size:.9rem;color:rgba(255,255,255,.4);line-height:1.95;font-weight:300;margin-bottom:1rem}
+.sstats{display:flex;gap:3rem;border-top:1px solid rgba(255,255,255,.06);padding-top:2.5rem;margin-top:2rem}
+.ssn{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--fire);line-height:1}
+.ssl{font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:.2rem}
+/* ─── GALLERY STRIP ─── */
+.gstrip{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;height:420px;gap:6px;background:var(--cream);padding:6px}
+.gi{overflow:hidden;position:relative;cursor:pointer}
+.gi-img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease);filter:saturate(.85)}
+.gi:hover .gi-img{transform:scale(1.07);filter:saturate(1.1)}
+.gi::after{content:'';position:absolute;inset:0;background:rgba(200,75,17,0);transition:background .35s}
+.gi:hover::after{background:rgba(200,75,17,.12)}
+/* ─── LOCATIONS ─── */
+.locations{background:var(--char)}
+.locations .stag{color:var(--fire)}
+.locations .sh{color:#fff;margin:.4rem 0 3.5rem}
+.lgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(255,255,255,.05)}
+.lc{background:rgba(255,255,255,.02);overflow:hidden;transition:background .3s}
+.lc:hover{background:rgba(255,255,255,.05)}
+.lc-img{width:100%;height:200px;object-fit:cover;filter:grayscale(80%) brightness(.7);transition:filter .5s}.lc-map{width:100%;height:200px;border:none;display:block;filter:grayscale(80%) brightness(.7);transition:filter .5s}.lc:hover .lc-map{filter:grayscale(30%) brightness(.95)}
+.lc:hover .lc-img{filter:grayscale(40%) brightness(.85)}
+.lc-body{padding:2rem 2rem 2.5rem}
+.lc-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:rgba(200,75,17,.18);line-height:1;margin-bottom:.5rem}
+.lc-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+.lc-addr{font-size:.8rem;color:rgba(255,255,255,.3);line-height:1.7;margin-bottom:1.2rem}
+.lc-open{display:inline-flex;align-items:center;gap:.5rem;font-size:.7rem;font-weight:500;color:#4caf50;letter-spacing:.06em}
+.lopen-dot{width:7px;height:7px;background:#4caf50;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+/* ─── REVIEWS ─── */
+.reviews{background:var(--smoke)}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:3.5rem}
+.rc{background:var(--cream);padding:2.5rem;position:relative;clip-path:polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%);transition:transform .3s var(--ease)}
+.rc:hover{transform:translateY(-6px)}
+.rc-q{position:absolute;top:1.5rem;right:1.8rem;font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:700;line-height:1;color:rgba(200,75,17,.1)}
+.rc-stars{color:var(--gold);font-size:.85rem;letter-spacing:.12em;margin-bottom:1.2rem}
+.rc-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--char);line-height:1.85;margin-bottom:1.5rem;font-weight:400}
+.rc-auth{font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}
+.rc-via{font-size:.65rem;color:rgba(138,112,96,.6);margin-top:.2rem}
+/* ─── CTA ─── */
+.cta-sec{position:relative;overflow:hidden;min-height:560px;display:flex;align-items:center;justify-content:center;text-align:center}
+.cta-parallax{position:absolute;inset:-20%;background:url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80') center 30%/cover no-repeat;will-change:transform}
+.cta-ov{position:absolute;inset:0;background:rgba(13,6,0,.87)}
+.cta-inner{position:relative;z-index:2;padding:4rem 2rem;max-width:640px;animation:riseUp .7s var(--ease) both}
+.cta-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,7vw,8rem);line-height:.88;color:#fff;letter-spacing:.04em;margin-bottom:1.2rem}
+.cta-h span{color:var(--fire)}
+.cta-sub{font-size:.9rem;color:rgba(255,255,255,.4);margin-bottom:2.5rem;font-weight:300}
+.cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);padding:1rem 2.2rem;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .25s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.55);color:#fff}
+/* ─── FOOTER ─── */
+footer{background:#070300;padding:4rem 5vw 2.5rem}
+.ftop{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.fbrand{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.06em;color:#fff;margin-bottom:1rem}
+.fbrand span{color:var(--fire)}
+.fbio{font-size:.8rem;color:rgba(255,255,255,.22);line-height:1.85;max-width:240px;font-weight:300}
+.fh{font-size:.62rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1.2rem}
+.flinks{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.flinks a{font-size:.8rem;color:rgba(255,255,255,.28);text-decoration:none;transition:color .2s}
+.flinks a:hover{color:var(--fire)}
+.fbot{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;flex-wrap:wrap;gap:1rem}
+.fcopy{font-size:.68rem;color:rgba(255,255,255,.15)}
+/* ─── TABLET ─── */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .dishes-layout{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .dc:nth-child(1){grid-row:auto;grid-column:span 2;height:360px}
+  .story{grid-template-columns:1fr}
+  .story-vis{min-height:420px}
+  .story-inset{display:none}
+  .gstrip{grid-template-columns:1fr 1fr;height:auto}
+  .gstrip .gi{height:220px}
+  .lgrid,.rgrid,.mgrid{grid-template-columns:1fr}
+  .ftop{grid-template-columns:1fr 1fr}
+  #nav{padding:1rem 4vw}
+  .sec{padding:5rem 4vw}
+  .story-txt{padding:4rem 3rem}
+}
+/* ─── MOBILE ─── */
+@media(max-width:600px){
+  /* Nav */
+  #nav{padding:.9rem 5vw}
+  #nav.solid{padding:.9rem 5vw}
+  .nav-links{display:none}
+  .logo{font-size:1.3rem}
+  .nav-btn{padding:.45rem 1rem;font-size:.68rem}
 
-  :root {
-    --char: #100800;
-    --ember: #C84B11;
-    --ember-light: #e8622e;
-    --ember-dark: #7a2c07;
-    --cream: #fdf8f2;
-    --smoke: #f2ebe0;
-    --ash: #7a6555;
-    --gold: #c9890a;
-    --white: #fff;
-  }
+  /* Hero */
+  .hero{min-height:100svh}
+  .hero-left{padding:0 6vw 5rem}
+  .hero-eyebrow{font-size:.62rem;margin-bottom:1.2rem}
+  .hero-h1{font-size:clamp(3.5rem,16vw,5.5rem);margin-bottom:1.4rem}
+  .hero-sub{font-size:.88rem;margin-bottom:2rem}
+  .hero-actions{flex-direction:column;align-items:flex-start;gap:.8rem}
+  .btn-cta,.btn-ghost{width:100%;justify-content:center;padding:.9rem 1.5rem}
+  .hero-scroll{display:none}
 
-  html { scroll-behavior: smooth; }
+  /* Marquee */
+  .mitem{font-size:.62rem;padding:0 1.5rem}
 
-  body {
-    font-family: 'Outfit', sans-serif;
-    background: var(--cream);
-    color: var(--char);
-    overflow-x: hidden;
-    cursor: default;
-  }
+  /* Sections */
+  .sec{padding:4rem 6vw}
+  .stag{font-size:.62rem}
+  .sh{font-size:clamp(2.2rem,11vw,3.5rem)}
 
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: var(--char); }
-  ::-webkit-scrollbar-thumb { background: var(--ember); }
+  /* Featured dishes */
+  .dishes-layout{grid-template-columns:1fr;grid-template-rows:auto;gap:6px}
+  .dc:nth-child(1){grid-column:auto;height:300px}
+  .dc{height:220px}
+  .dc-name{font-size:1.5rem!important}
+  .dc-info{padding:1.2rem 1.4rem 1.5rem}
 
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.4rem 4rem;
-    transition: background 0.4s, padding 0.4s;
-  }
-  nav.scrolled {
-    background: rgba(16,8,0,0.97);
-    padding: 1rem 4rem;
-    backdrop-filter: blur(12px);
-  }
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem; font-weight: 700;
-    color: var(--white); letter-spacing: 0.04em;
-    text-decoration: none;
-  }
-  .nav-logo span { color: var(--ember); font-style: italic; }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    color: rgba(255,255,255,0.65); text-decoration: none;
-    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
-    text-transform: uppercase; transition: color 0.2s;
-    position: relative;
-  }
-  .nav-links a::after {
-    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
-    height: 1px; background: var(--ember);
-    transform: scaleX(0); transition: transform 0.25s;
-  }
-  .nav-links a:hover { color: #fff; }
-  .nav-links a:hover::after { transform: scaleX(1); }
-  .nav-cta {
-    background: var(--ember); color: #fff; border: none;
-    padding: 0.65rem 1.6rem; font-family: 'Outfit', sans-serif;
-    font-size: 0.75rem; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    cursor: pointer; transition: background 0.2s, transform 0.15s;
-  }
-  .nav-cta:hover { background: var(--ember-light); transform: translateY(-1px); }
+  /* Menu */
+  .mgrid{grid-template-columns:1fr}
+  .menu-tabs{gap:0;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+  .mtab{flex-shrink:0;padding:.6rem 1.1rem;font-size:.68rem}
+  .mi{padding:1.2rem}
+  .mi-img{width:60px;height:60px}
+  .mi-n{font-size:1rem}
+  .mi-d{font-size:.75rem}
 
-  /* ── HERO ── */
-  .hero {
-    height: 100vh; min-height: 700px;
-    position: relative; overflow: hidden;
-    display: flex; align-items: flex-end;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1558030006-450675393462?w=1600&q=80');
-    background-size: cover; background-position: center 40%;
-    transform: scale(1.05);
-    animation: heroZoom 12s ease-out forwards;
-  }
-  @keyframes heroZoom {
-    from { transform: scale(1.1); }
-    to   { transform: scale(1.0); }
-  }
-  .hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(16,8,0,0.97) 0%,
-      rgba(16,8,0,0.7) 35%,
-      rgba(16,8,0,0.25) 70%,
-      rgba(16,8,0,0.1) 100%
-    );
-  }
-  .hero-grain {
-    position: absolute; inset: 0; opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    background-repeat: repeat; background-size: 128px;
-  }
-  .hero-content {
-    position: relative; z-index: 2;
-    padding: 0 6rem 7rem;
-    max-width: 800px;
-    animation: heroUp 1s cubic-bezier(0.16,1,0.3,1) 0.2s both;
-  }
-  @keyframes heroUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 0.6rem;
-    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--ember);
-    margin-bottom: 1.8rem;
-  }
-  .hero-eyebrow-line { width: 36px; height: 1px; background: var(--ember); }
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(4rem, 7vw, 8rem);
-    font-weight: 700; color: #fff; line-height: 0.92;
-    margin-bottom: 2rem; letter-spacing: -0.01em;
-  }
-  .hero-title em { color: var(--ember); font-style: italic; display: block; }
-  .hero-desc {
-    font-size: 1rem; color: rgba(255,255,255,0.5);
-    font-weight: 300; line-height: 1.9; max-width: 460px;
-    margin-bottom: 3rem;
-  }
-  .hero-actions { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
-  .btn-fire {
-    background: var(--ember); color: #fff; border: none;
-    padding: 1rem 2.4rem; font-family: 'Outfit', sans-serif;
-    font-size: 0.82rem; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; cursor: pointer;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-    position: relative; overflow: hidden;
-  }
-  .btn-fire::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
-    transform: translateX(-100%); transition: transform 0.4s;
-  }
-  .btn-fire:hover::before { transform: translateX(100%); }
-  .btn-fire:hover { background: var(--ember-light); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(200,75,17,0.4); }
-  .btn-ghost {
-    background: transparent; color: rgba(255,255,255,0.75);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 1rem 2.4rem; font-family: 'Outfit', sans-serif;
-    font-size: 0.82rem; font-weight: 400; letter-spacing: 0.1em;
-    text-transform: uppercase; cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-ghost:hover { border-color: rgba(255,255,255,0.6); color: #fff; }
-  .hero-scroll {
-    position: absolute; bottom: 2.5rem; right: 4rem; z-index: 2;
-    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
-  }
-  .scroll-line {
-    width: 1px; height: 50px;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; transform: scaleY(1); }
-    50% { opacity: 1; transform: scaleY(0.6); }
-  }
+  /* Story */
+  .story{grid-template-columns:1fr}
+  .story-vis{min-height:280px}
+  .story-txt{padding:3rem 6vw}
+  .story-bnum{font-size:12rem;right:-.5rem;bottom:-1rem}
+  .story-badge{bottom:1.5rem;left:1.5rem;padding:1rem 1.4rem}
+  .story-badge-n{font-size:2.8rem}
+  .sstats{gap:1.5rem;flex-wrap:wrap}
+  .ssn{font-size:2.5rem}
 
-  /* ── MARQUEE ── */
-  .marquee-wrap {
-    background: var(--ember); overflow: hidden;
-    padding: 1rem 0; position: relative;
-  }
-  .marquee-track {
-    display: flex; gap: 0;
-    animation: marquee 22s linear infinite;
-    white-space: nowrap;
-  }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  .marquee-item {
-    display: inline-flex; align-items: center; gap: 1.2rem;
-    padding: 0 2.5rem;
-    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em;
-    text-transform: uppercase; color: rgba(255,255,255,0.9);
-  }
-  .marquee-sep { width: 5px; height: 5px; background: rgba(255,255,255,0.4); border-radius: 50%; flex-shrink:0; }
+  /* Gallery */
+  .gstrip{grid-template-columns:1fr 1fr;gap:4px;padding:4px}
+  .gstrip .gi{height:160px}
 
-  /* ── FEATURED DISHES ── */
-  .featured {
-    padding: 7rem 4rem;
-    background: var(--cream);
-  }
-  .section-head {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    margin-bottom: 3.5rem; gap: 2rem; flex-wrap: wrap;
-  }
-  .section-tag {
-    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--ember);
-    margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.8rem;
-  }
-  .section-tag::before { content: ''; width: 28px; height: 1px; background: var(--ember); }
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.2rem, 4vw, 3.8rem);
-    font-weight: 700; line-height: 1.05; color: var(--char);
-  }
-  .section-title em { color: var(--ember); font-style: italic; }
-  .view-all {
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--ember); text-decoration: none;
-    border-bottom: 1px solid var(--ember); padding-bottom: 2px;
-    white-space: nowrap; transition: opacity 0.2s;
-  }
-  .view-all:hover { opacity: 0.7; }
+  /* Locations */
+  .lgrid{grid-template-columns:1fr;gap:1.5px}
+  .lc-img,.lc-map{height:160px}
+  .lc-body{padding:1.4rem 1.4rem 1.8rem}
+  .lc-num{font-size:2rem}
+  .lc-name{font-size:1.2rem}
 
-  .dishes-grid {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
-    grid-template-rows: 420px 300px;
-    gap: 12px;
-  }
-  .dish-card {
-    position: relative; overflow: hidden;
-    cursor: pointer;
-  }
-  .dish-card:first-child { grid-row: 1 / 3; }
-  .dish-img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
-  }
-  .dish-card:hover .dish-img { transform: scale(1.07); }
-  .dish-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(16,8,0,0.88) 0%, rgba(16,8,0,0.2) 50%, transparent 100%);
-    transition: opacity 0.3s;
-  }
-  .dish-card:hover .dish-overlay { opacity: 0.85; }
-  .dish-info {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 1.8rem;
-    transform: translateY(4px);
-    transition: transform 0.3s;
-  }
-  .dish-card:hover .dish-info { transform: translateY(0); }
-  .dish-cat {
-    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.16em;
-    text-transform: uppercase; color: var(--ember); margin-bottom: 0.5rem;
-  }
-  .dish-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 700; color: #fff; line-height: 1.1;
-  }
-  .dish-card:first-child .dish-name { font-size: 2.2rem; }
-  .dish-name:not(.dish-card:first-child .dish-name) { font-size: 1.4rem; }
-  .dish-price {
-    font-size: 0.82rem; color: rgba(255,255,255,0.55);
-    margin-top: 0.4rem; font-weight: 300;
-  }
-  .dish-tag {
-    position: absolute; top: 1.2rem; left: 1.2rem;
-    background: var(--ember); color: #fff;
-    font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; padding: 0.3rem 0.7rem;
-  }
+  /* Reviews */
+  .rgrid{grid-template-columns:1fr;gap:12px}
+  .rc{padding:1.8rem}
+  .rc-text{font-size:.95rem}
 
-  /* ── STORY ── */
-  .story {
-    display: grid; grid-template-columns: 1fr 1fr;
-    min-height: 680px;
-  }
-  .story-images {
-    position: relative; overflow: hidden;
-  }
-  .story-img-main {
-    width: 100%; height: 100%;
-    object-fit: cover;
-  }
-  .story-img-inset {
-    position: absolute; bottom: 3rem; right: -2rem;
-    width: 240px; height: 300px;
-    object-fit: cover;
-    border: 6px solid var(--cream);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  }
-  .story-content {
-    background: var(--char);
-    padding: 6rem 5rem 6rem 6rem;
-    display: flex; flex-direction: column; justify-content: center;
-    position: relative; overflow: hidden;
-  }
-  .story-bg-num {
-    position: absolute; right: -1rem; bottom: -2rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18rem; font-weight: 700; line-height: 1;
-    color: rgba(200,75,17,0.06); pointer-events: none; user-select: none;
-  }
-  .story-content .section-tag { color: var(--ember); }
-  .story-content .section-title { color: #fff; margin-bottom: 1.8rem; }
-  .story-text {
-    font-size: 0.95rem; color: rgba(255,255,255,0.45);
-    line-height: 1.95; margin-bottom: 1.2rem; font-weight: 300;
-  }
-  .story-stats {
-    display: flex; gap: 3rem; margin-top: 2.8rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid rgba(255,255,255,0.07);
-  }
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3rem; font-weight: 700; color: var(--ember);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em;
-    text-transform: uppercase; color: rgba(255,255,255,0.3);
-    margin-top: 0.3rem;
-  }
+  /* CTA */
+  .cta-sec{min-height:420px}
+  .cta-h{font-size:clamp(2.8rem,13vw,5rem)}
+  .cta-row{flex-direction:column;align-items:center}
+  .cta-row .btn-cta,.cta-row .btn-ghost{width:100%;max-width:320px;justify-content:center}
 
-  /* ── FULL MENU SECTION ── */
-  .menu-section { padding: 7rem 4rem; background: var(--smoke); }
-  .menu-cats {
-    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 3rem;
-  }
-  .menu-tab {
-    padding: 0.55rem 1.4rem;
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
-    text-transform: uppercase; border: 1px solid rgba(16,8,0,0.15);
-    background: transparent; cursor: pointer; transition: all 0.2s;
-    font-family: 'Outfit', sans-serif;
-  }
-  .menu-tab:hover, .menu-tab.active {
-    background: var(--ember); color: #fff; border-color: var(--ember);
-  }
-  .menu-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
-    background: rgba(16,8,0,0.08);
-  }
-  .menu-item {
-    background: var(--cream);
-    display: flex; gap: 1.2rem;
-    padding: 1.8rem 2rem; align-items: flex-start;
-    transition: background 0.25s;
-  }
-  .menu-item:hover { background: var(--char); }
-  .menu-item:hover .mi-name { color: #fff; }
-  .menu-item:hover .mi-desc { color: rgba(255,255,255,0.4); }
-  .menu-item:hover .mi-price { color: var(--ember); }
-  .mi-photo {
-    width: 72px; height: 72px; object-fit: cover; flex-shrink: 0;
-  }
-  .mi-body { flex: 1; min-width: 0; }
-  .mi-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem; font-weight: 700;
-    margin-bottom: 0.3rem; transition: color 0.25s;
-  }
-  .mi-desc {
-    font-size: 0.78rem; color: var(--ash); line-height: 1.6;
-    margin-bottom: 0.6rem; transition: color 0.25s;
-  }
-  .mi-price {
-    font-size: 0.8rem; font-weight: 600; color: var(--ember);
-    transition: color 0.25s;
-  }
+  /* Footer */
+  footer{padding:3rem 6vw 2rem}
+  .ftop{grid-template-columns:1fr;gap:2rem}
+  .fbrand{font-size:1.6rem}
+  .fbot{flex-direction:column;gap:.6rem;text-align:center}
 
-  /* ── GALLERY ── */
-  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 2px; background: var(--cream); }
-  .gallery-item { position: relative; overflow: hidden; aspect-ratio: 1; }
-  .gallery-item:first-child { grid-column: span 2; aspect-ratio: auto; min-height: 300px; }
-  .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; display: block; }
-  .gallery-item:hover .gallery-img { transform: scale(1.06); }
-  .gallery-item::after {
-    content: ''; position: absolute; inset: 0;
-    background: rgba(16,8,0,0); transition: background 0.3s;
-  }
-  .gallery-item:hover::after { background: rgba(200,75,17,0.15); }
-
-  /* ── LOCATIONS ── */
-  .locations { padding: 7rem 4rem; background: var(--char); }
-  .locations .section-tag { color: var(--ember); }
-  .locations .section-title { color: #fff; }
-  .loc-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1.5px; background: rgba(255,255,255,0.06);
-    margin-top: 3.5rem;
-  }
-  .loc-card {
-    background: rgba(255,255,255,0.03);
-    padding: 0; overflow: hidden;
-    position: relative;
-    transition: background 0.3s;
-  }
-  .loc-card:hover { background: rgba(255,255,255,0.06); }
-  .loc-map-img {
-    width: 100%; height: 180px; object-fit: cover;
-    filter: grayscale(100%) sepia(20%);
-    transition: filter 0.4s;
-  }
-  .loc-card:hover .loc-map-img { filter: grayscale(60%) sepia(10%); }
-  .loc-body { padding: 2rem 2rem 2.5rem; }
-  .loc-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem; font-weight: 700;
-    color: rgba(200,75,17,0.2); line-height: 1; margin-bottom: 0.8rem;
-  }
-  .loc-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem;
-  }
-  .loc-addr { font-size: 0.82rem; color: rgba(255,255,255,0.35); line-height: 1.7; margin-bottom: 1.2rem; }
-  .loc-open {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    font-size: 0.72rem; font-weight: 500; color: #4caf50;
-    letter-spacing: 0.06em;
-  }
-  .loc-open-dot { width: 7px; height: 7px; background: #4caf50; border-radius: 50%; animation: blink 2s ease-in-out infinite; }
-  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0.3} }
-
-  /* ── REVIEWS ── */
-  .reviews { padding: 7rem 4rem; background: var(--smoke); }
-  .reviews-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-    margin-top: 3.5rem;
-  }
-  .review-card {
-    background: var(--cream);
-    padding: 2.5rem;
-    border-top: 3px solid var(--ember);
-    position: relative;
-  }
-  .review-quote {
-    position: absolute; top: 1.8rem; right: 2rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 5rem; color: rgba(200,75,17,0.1); line-height: 1;
-    font-weight: 700; pointer-events: none;
-  }
-  .review-stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 0.15em; margin-bottom: 1.2rem; }
-  .review-text {
-    font-size: 0.9rem; color: var(--ash); line-height: 1.9;
-    font-style: italic; margin-bottom: 1.5rem;
-    font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
-  }
-  .review-author { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--char); }
-  .review-via { font-size: 0.68rem; color: var(--ash); margin-top: 0.2rem; }
-
-  /* ── CTA ── */
-  .cta {
-    position: relative; overflow: hidden;
-    min-height: 500px; display: flex; align-items: center; justify-content: center;
-    text-align: center;
-  }
-  .cta-bg {
-    position: absolute; inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80');
-    background-size: cover; background-position: center 30%;
-  }
-  .cta-overlay { position: absolute; inset: 0; background: rgba(16,8,0,0.82); }
-  .cta-content { position: relative; z-index: 2; padding: 4rem 2rem; max-width: 600px; }
-  .cta-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem,5vw,4.5rem); font-weight: 700; color: #fff;
-    line-height: 1.05; margin-bottom: 1.2rem;
-  }
-  .cta-title em { color: var(--ember); font-style: italic; }
-  .cta-sub { color: rgba(255,255,255,0.45); font-size: 0.95rem; margin-bottom: 2.5rem; font-weight: 300; }
-  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-
-  /* ── FOOTER ── */
-  footer {
-    background: #080400;
-    padding: 4rem;
-  }
-  .footer-top {
-    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 3rem; padding-bottom: 3rem;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .footer-brand-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 1rem;
-  }
-  .footer-brand-logo span { color: var(--ember); font-style: italic; }
-  .footer-brand-desc { font-size: 0.83rem; color: rgba(255,255,255,0.25); line-height: 1.8; max-width: 260px; }
-  .footer-col-title {
-    font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
-    text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1.2rem;
-  }
-  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
-  .footer-links a { font-size: 0.82rem; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
-  .footer-links a:hover { color: var(--ember); }
-  .footer-bottom {
-    display: flex; align-items: center; justify-content: space-between;
-    padding-top: 2rem; flex-wrap: wrap; gap: 1rem;
-  }
-  .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.18); }
-  .footer-flag { font-size: 0.72rem; color: rgba(255,255,255,0.18); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
-    nav.scrolled { padding: 0.8rem 1.5rem; }
-    .nav-links { display: none; }
-    .hero-content { padding: 0 2rem 5rem; }
-    .featured, .menu-section, .reviews, .locations { padding: 4rem 1.5rem; }
-    .story { grid-template-columns: 1fr; }
-    .story-images { min-height: 400px; }
-    .story-img-inset { display: none; }
-    .story-content { padding: 3rem 2rem; }
-    .dishes-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-    .dish-card:first-child { grid-row: auto; grid-column: span 2; height: 380px; }
-    .menu-grid { grid-template-columns: 1fr; }
-    .loc-grid { grid-template-columns: 1fr; }
-    .reviews-grid { grid-template-columns: 1fr; }
-    .gallery { grid-template-columns: 1fr 1fr; }
-    .gallery-item:first-child { grid-column: span 2; }
-    .footer-top { grid-template-columns: 1fr 1fr; }
-    footer { padding: 3rem 1.5rem; }
-  }
+  /* Hide custom cursor on touch */
+  .cursor{display:none}
+}
 </style>
 </head>
 <body>
 
+<!-- CURSOR -->
+<div class="cursor" id="cur">
+  <div class="cursor-ring" id="curR" style="position:absolute"></div>
+  <div class="cursor-dot" id="curD" style="position:absolute"></div>
+</div>
+
+<!-- MOBILE DRAWER -->
+<div id="drawer" style="position:fixed;inset:0;background:rgba(13,6,0,.97);z-index:999;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2.5rem;transform:translateX(100%);transition:transform .4s cubic-bezier(0.16,1,0.3,1)">
+  <a href="#dishes"   onclick="closeDrawer()" style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#fff;text-decoration:none;letter-spacing:.06em">Menu</a>
+  <a href="#story"    onclick="closeDrawer()" style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#fff;text-decoration:none;letter-spacing:.06em">Our Story</a>
+  <a href="#locations"onclick="closeDrawer()" style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#fff;text-decoration:none;letter-spacing:.06em">Locations</a>
+  <a href="#reviews"  onclick="closeDrawer()" style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#fff;text-decoration:none;letter-spacing:.06em">Reviews</a>
+  <button onclick="closeDrawer()" style="margin-top:1rem;background:var(--fire);color:#fff;border:none;padding:.8rem 2.5rem;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer" onclick="document.getElementById('locations').scrollIntoView({behavior:'smooth'})">Find Us</button>
+</div>
+
 <!-- NAV -->
 <nav id="nav">
-  <a href="#" class="nav-logo">The <span>Butcher's</span> Grill</a>
+  <a href="#" class="logo">The <span>Butcher's</span> Grill</a>
   <ul class="nav-links">
     <li><a href="#dishes">Menu</a></li>
     <li><a href="#story">Our Story</a></li>
     <li><a href="#locations">Locations</a></li>
     <li><a href="#reviews">Reviews</a></li>
   </ul>
-  <button class="nav-cta">Order Now</button>
+  <div style="display:flex;align-items:center;gap:1rem">
+    <button class="nav-btn" onclick="document.getElementById('locations').scrollIntoView({behavior:'smooth'})">Find Us</button>
+    <button id="burger" onclick="toggleDrawer()" style="display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px">
+      <span style="width:24px;height:2px;background:#fff;display:block;transition:all .3s"></span>
+      <span style="width:24px;height:2px;background:#fff;display:block;transition:all .3s"></span>
+      <span style="width:16px;height:2px;background:#fff;display:block;transition:all .3s"></span>
+    </button>
+  </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
+<section class="hero" id="hero">
+  <div class="hero-parallax" id="hpx"></div>
+  <div class="hero-grad"></div>
   <div class="hero-grain"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">
-      <span class="hero-eyebrow-line"></span>
-      Seychelles' Favourite Since 2013
-    </div>
-    <h1 class="hero-title">
-      Grilled to
-      <em>Perfection.</em>
-    </h1>
-    <p class="hero-desc">From flame-kissed burgers to soulful Creole curries — fresh, fast and made for the islands. No KFC, no McDonald's. Just us.</p>
-    <div class="hero-actions">
-      <button class="btn-fire" onclick="document.getElementById('dishes').scrollIntoView({behavior:'smooth'})">Explore the Menu</button>
-      <button class="btn-ghost" onclick="document.getElementById('locations').scrollIntoView({behavior:'smooth'})">Find a Location</button>
-    </div>
+  <div class="hero-left">
+    <div class="hero-eyebrow"><span class="hero-rule"></span>Seychelles' Favourite Since 2013</div>
+    <h1 class="hero-h1">FIRE<br>MEETS<br>FL<span class="slash">A</span>VOUR</h1>
+    <p class="hero-sub">From flame-kissed burgers to soulful Creole curries — fresh, fast, and born in the islands. Before KFC. Before McDonald's. Just us.</p>
+    <button class="btn-cta" onclick="document.getElementById('dishes').scrollIntoView({behavior:'smooth'})">
+      Explore the Menu
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
   </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    Scroll
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">10+</div><div class="hstat-l">Years Serving</div></div>
+      <div class="hstat"><div class="hstat-n">3+</div><div class="hstat-l">Locations</div></div>
+      <div class="hstat"><div class="hstat-n">2013</div><div class="hstat-l">Est. Mahé</div></div>
+      <div class="hstat"><div class="hstat-n">#1</div><div class="hstat-l">Local Fast Food</div></div>
+    </div>
+    <button class="btn-ghost" onclick="document.getElementById('locations').scrollIntoView({behavior:'smooth'})">Find a Location</button>
   </div>
+  <div class="hero-scroll"><div class="scroll-bar"></div>Scroll</div>
 </section>
 
 <!-- MARQUEE -->
-<div class="marquee-wrap" aria-hidden="true">
-  <div class="marquee-track">
-    <span class="marquee-item">🔥 Flame-Grilled Daily<span class="marquee-sep"></span></span>
-    <span class="marquee-item">🌴 Proudly Seychellois<span class="marquee-sep"></span></span>
-    <span class="marquee-item">🍛 Creole &amp; International<span class="marquee-sep"></span></span>
-    <span class="marquee-item">💰 Always Affordable<span class="marquee-sep"></span></span>
-    <span class="marquee-item">🥩 Premium Fresh Cuts<span class="marquee-sep"></span></span>
-    <span class="marquee-item">🍔 Burgers &amp; Grills<span class="marquee-sep"></span></span>
-    <span class="marquee-item">🔥 Flame-Grilled Daily<span class="marquee-sep"></span></span>
-    <span class="marquee-item">🌴 Proudly Seychellois<span class="marquee-sep"></span></span>
-    <span class="marquee-item">🍛 Creole &amp; International<span class="marquee-sep"></span></span>
-    <span class="marquee-item">💰 Always Affordable<span class="marquee-sep"></span></span>
-    <span class="marquee-item">🥩 Premium Fresh Cuts<span class="marquee-sep"></span></span>
-    <span class="marquee-item">🍔 Burgers &amp; Grills<span class="marquee-sep"></span></span>
+<div class="marquee" aria-hidden="true">
+  <div class="mtrack">
+    <span class="mitem">🔥 Flame-Grilled Daily<span class="mdot"></span></span>
+    <span class="mitem">🌴 Proudly Seychellois<span class="mdot"></span></span>
+    <span class="mitem">🍛 Creole &amp; International<span class="mdot"></span></span>
+    <span class="mitem">💰 Always Affordable<span class="mdot"></span></span>
+    <span class="mitem">🥩 Premium Fresh Cuts Meat<span class="mdot"></span></span>
+    <span class="mitem">🍔 Burgers &amp; Grills<span class="mdot"></span></span>
+    <span class="mitem">🔥 Flame-Grilled Daily<span class="mdot"></span></span>
+    <span class="mitem">🌴 Proudly Seychellois<span class="mdot"></span></span>
+    <span class="mitem">🍛 Creole &amp; International<span class="mdot"></span></span>
+    <span class="mitem">💰 Always Affordable<span class="mdot"></span></span>
+    <span class="mitem">🥩 Premium Fresh Cuts Meat<span class="mdot"></span></span>
+    <span class="mitem">🍔 Burgers &amp; Grills<span class="mdot"></span></span>
   </div>
 </div>
 
-<!-- FEATURED DISHES -->
-<section id="dishes" class="featured">
-  <div class="section-head">
-    <div>
-      <div class="section-tag">Signature Dishes</div>
-      <h2 class="section-title">Fresh Off the<br><em>Grill</em></h2>
-    </div>
-    <a href="#menu-full" class="view-all">Full Menu →</a>
+<!-- FEATURED -->
+<section id="dishes" class="sec featured">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem">
+    <div><div class="stag">Signature Dishes</div><h2 class="sh">Fresh Off<br>the <em>Grill</em></h2></div>
+    <a href="#menu" style="font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--fire);text-decoration:none;border-bottom:1px solid var(--fire);padding-bottom:2px;white-space:nowrap" onclick="event.preventDefault();document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Full Menu →</a>
   </div>
-  <div class="dishes-grid">
-    <div class="dish-card">
-      <img class="dish-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80" alt="Signature Burger" loading="lazy">
-      <div class="dish-overlay"></div>
-      <div class="dish-tag">⭐ Signature</div>
-      <div class="dish-info">
-        <div class="dish-cat">Burgers &amp; Grills</div>
-        <div class="dish-name" style="font-size:2.2rem;">The Butcher's Classic Burger</div>
-        <div class="dish-price">From SCR 35 · Double patty available</div>
+  <div class="dishes-layout">
+    <div class="dc">
+      <img class="dc-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&q=82" alt="Classic Burger" loading="lazy">
+      <div class="dc-grad"></div>
+      <div class="dc-info">
+        <span class="dc-tag">⭐ Signature</span>
+        <div class="dc-cat">Burgers &amp; Grills</div>
+        <div class="dc-name">The Butcher's Classic Burger</div>
+        
       </div>
     </div>
-    <div class="dish-card">
-      <img class="dish-img" src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80" alt="Creole Curry" loading="lazy">
-      <div class="dish-overlay"></div>
-      <div class="dish-info">
-        <div class="dish-cat">Creole Kitchen</div>
-        <div class="dish-name">Creole Fish Curry</div>
-        <div class="dish-price">From SCR 42</div>
+    <div class="dc">
+      <img class="dc-img" src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=80" alt="Creole Curry" loading="lazy">
+      <div class="dc-grad"></div>
+      <div class="dc-info">
+        <div class="dc-cat">Creole Kitchen</div>
+        <div class="dc-name">Creole Fish Curry</div>
+        
       </div>
     </div>
-    <div class="dish-card">
-      <img class="dish-img" src="https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80" alt="Fried Chicken" loading="lazy">
-      <div class="dish-overlay"></div>
-      <div class="dish-tag">🔥 Hot</div>
-      <div class="dish-info">
-        <div class="dish-cat">Fried Chicken</div>
-        <div class="dish-name">Crispy Fried Chicken</div>
-        <div class="dish-price">From SCR 38</div>
+    <div class="dc">
+      <img class="dc-img" src="https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80" alt="Fried Chicken" loading="lazy">
+      <div class="dc-grad"></div>
+      <div class="dc-info">
+        <span class="dc-tag">🔥 Hot Pick</span>
+        <div class="dc-cat">Fried Chicken</div>
+        <div class="dc-name">Crispy Golden Chicken</div>
+        
       </div>
     </div>
-    <div class="dish-card">
-      <img class="dish-img" src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=80" alt="Grilled Steak" loading="lazy">
-      <div class="dish-overlay"></div>
-      <div class="dish-info">
-        <div class="dish-cat">From the Grill</div>
-        <div class="dish-name">Grilled Beef Plate</div>
-        <div class="dish-price">From SCR 50</div>
+    <div class="dc">
+      <img class="dc-img" src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&q=80" alt="Grilled Steak" loading="lazy">
+      <div class="dc-grad"></div>
+      <div class="dc-info">
+        <div class="dc-cat">From the Grill</div>
+        <div class="dc-name">Grilled Beef Plate</div>
+        
       </div>
     </div>
-    <div class="dish-card">
-      <img class="dish-img" src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&q=80" alt="Kebab Wrap" loading="lazy">
-      <div class="dish-overlay"></div>
-      <div class="dish-info">
-        <div class="dish-cat">Wraps &amp; Kebabs</div>
-        <div class="dish-name">Chicken Kebab Wrap</div>
-        <div class="dish-price">From SCR 40</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- OUR STORY -->
-<section id="story" class="story">
-  <div class="story-images">
-    <img class="story-img-main" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=900&q=80" alt="Restaurant interior" loading="lazy">
-    <img class="story-img-inset" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=80" alt="Chef at work" loading="lazy">
-  </div>
-  <div class="story-content">
-    <div class="story-bg-num">13</div>
-    <div class="section-tag">Our Story</div>
-    <h2 class="section-title" style="color:#fff;">Born in the<br><em>Islands</em></h2>
-    <p class="story-text">Before there was a KFC or McDonald's in Seychelles, there was us. What started as a tiny outlet at Mont Fleuri — chips, sausages, burgers — struck such a nerve with locals that a chain was born.</p>
-    <p class="story-text">As a sister brand of Fresh-Cuts, Seychelles' most trusted meat retailer, quality has always been in our DNA. Today we serve everything from flame-grilled classics to authentic Creole dishes. Affordable, fresh, made with heart.</p>
-    <div class="story-stats">
-      <div>
-        <div class="stat-num">10+</div>
-        <div class="stat-label">Years Serving</div>
-      </div>
-      <div>
-        <div class="stat-num">3+</div>
-        <div class="stat-label">Locations</div>
-      </div>
-      <div>
-        <div class="stat-num">#1</div>
-        <div class="stat-label">Local Fast Food</div>
+    <div class="dc">
+      <img class="dc-img" src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&q=80" alt="Wrap" loading="lazy">
+      <div class="dc-grad"></div>
+      <div class="dc-info">
+        <div class="dc-cat">Wraps &amp; Kebabs</div>
+        <div class="dc-name">Chicken Kebab Wrap</div>
+        
       </div>
     </div>
   </div>
 </section>
 
 <!-- FULL MENU -->
-<section id="menu-full" class="menu-section">
-  <div class="section-head">
-    <div>
-      <div class="section-tag">Full Menu</div>
-      <h2 class="section-title">Something for<br><em>Everyone</em></h2>
-    </div>
+<section id="menu" class="sec menu-sec">
+  <div class="stag">Full Menu</div>
+  <h2 class="sh">Something for <em>Everyone</em></h2>
+  <div class="menu-tabs">
+    <button class="mtab on" onclick="fmenu(this,'all')">All</button>
+    <button class="mtab" onclick="fmenu(this,'grill')">Burgers &amp; Grills</button>
+    <button class="mtab" onclick="fmenu(this,'creole')">Creole</button>
+    <button class="mtab" onclick="fmenu(this,'chicken')">Chicken</button>
+    <button class="mtab" onclick="fmenu(this,'wraps')">Wraps</button>
+    <button class="mtab" onclick="fmenu(this,'drinks')">Drinks</button>
   </div>
-  <div class="menu-cats">
-    <button class="menu-tab active" onclick="filterMenu(this,'all')">All</button>
-    <button class="menu-tab" onclick="filterMenu(this,'grill')">Burgers &amp; Grills</button>
-    <button class="menu-tab" onclick="filterMenu(this,'creole')">Creole</button>
-    <button class="menu-tab" onclick="filterMenu(this,'chicken')">Chicken</button>
-    <button class="menu-tab" onclick="filterMenu(this,'wraps')">Wraps &amp; Kebabs</button>
-    <button class="menu-tab" onclick="filterMenu(this,'drinks')">Drinks</button>
+  <div class="mgrid" id="mg">
+    <div class="mi" data-c="grill"><img class="mi-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&q=70" alt="burger" loading="lazy"><div><div class="mi-n">Classic Beef Burger</div><div class="mi-d">Grilled patty, lettuce, tomato, pickles &amp; special sauce</div><div class="mi-p">Ask in store</div></div></div>
+    <div class="mi" data-c="creole"><img class="mi-img" src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200&q=70" alt="curry" loading="lazy"><div><div class="mi-n">Creole Fish Curry &amp; Rice</div><div class="mi-d">Slow-cooked island-style curry with fragrant white rice</div><div class="mi-p">Ask in store</div></div></div>
+    <div class="mi" data-c="chicken"><img class="mi-img" src="https://images.unsplash.com/photo-1562967914-608f82629710?w=200&q=70" alt="chicken" loading="lazy"><div><div class="mi-n">Crispy Fried Chicken</div><div class="mi-d">Golden-fried pieces with our signature seasoning blend</div><div class="mi-p">Ask in store</div></div></div>
+    <div class="mi" data-c="grill"><img class="mi-img" src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=200&q=70" alt="steak" loading="lazy"><div><div class="mi-n">Grilled Beef Steak Plate</div><div class="mi-d">Char-grilled steak, fries and seasonal salad</div><div class="mi-p">Ask in store</div></div></div>
+    <div class="mi" data-c="wraps"><img class="mi-img" src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=200&q=70" alt="wrap" loading="lazy"><div><div class="mi-n">Chicken Kebab Wrap</div><div class="mi-d">Juicy grilled chicken, onions, peppers, garlic sauce</div><div class="mi-p">Ask in store</div></div></div>
+    <div class="mi" data-c="creole"><img class="mi-img" src="https://images.unsplash.com/photo-1546549032-9571cd6b27df?w=200&q=70" alt="noodles" loading="lazy"><div><div class="mi-n">Asian Noodle Stir-Fry</div><div class="mi-d">Wok-tossed noodles with veg and soy-ginger glaze</div><div class="mi-p">Ask in store</div></div></div>
+    <div class="mi" data-c="chicken"><img class="mi-img" src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=200&q=70" alt="spicy burger" loading="lazy"><div><div class="mi-n">Spicy Chicken Burger</div><div class="mi-d">Crispy fillet, sriracha mayo, coleslaw, brioche bun</div><div class="mi-p">Ask in store</div></div></div>
+    <div class="mi" data-c="grill"><img class="mi-img" src="https://images.unsplash.com/photo-1551782450-17144efb9c50?w=200&q=70" alt="pizza" loading="lazy"><div><div class="mi-n">Pizza Slice</div><div class="mi-d">Freshly baked, cheese, tomato &amp; your choice of topping</div><div class="mi-p">Ask in store</div></div></div>
+    <div class="mi" data-c="drinks"><img class="mi-img" src="https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=200&q=70" alt="drinks" loading="lazy"><div><div class="mi-n">Milkshakes &amp; Cold Drinks</div><div class="mi-d">Thick shakes, sodas, fresh juice and ice-cold beer</div><div class="mi-p">Ask in store</div></div></div>
   </div>
-  <div class="menu-grid" id="menuGrid">
-    <div class="menu-item" data-cat="grill">
-      <img class="mi-photo" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200&q=70" alt="Classic Burger" loading="lazy">
-      <div class="mi-body">
-        <div class="mi-name">Classic Beef Burger</div>
-        <div class="mi-desc">Grilled patty, lettuce, tomato, pickles &amp; special sauce</div>
-        <div class="mi-price">SCR 35</div>
-      </div>
-    </div>
-    <div class="menu-item" data-cat="creole">
-      <img class="mi-photo" src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200&q=70" alt="Curry" loading="lazy">
-      <div class="mi-body">
-        <div class="mi-name">Creole Fish Curry &amp; Rice</div>
-        <div class="mi-desc">Slow-cooked island-style curry with fragrant white rice</div>
-        <div class="mi-price">SCR 42</div>
-      </div>
-    </div>
-    <div class="menu-item" data-cat="chicken">
-      <img class="mi-photo" src="https://images.unsplash.com/photo-1562967914-608f82629710?w=200&q=70" alt="Fried Chicken" loading="lazy">
-      <div class="mi-body">
-        <div class="mi-name">Crispy Fried Chicken</div>
-        <div class="mi-desc">Golden-fried pieces with our signature seasoning blend</div>
-        <div class="mi-price">SCR 38</div>
-      </div>
-    </div>
-    <div class="menu-item" data-cat="grill">
-      <img class="mi-photo" src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=200&q=70" alt="Steak" loading="lazy">
-      <div class="mi-body">
-        <div class="mi-name">Grilled Beef Steak Plate</div>
-        <div class="mi-desc">Char-grilled steak with fries and seasonal salad</div>
-        <div class="mi-price">SCR 50</div>
-      </div>
-    </div>
-    <div class="menu-item" data-cat="wraps">
-      <img class="mi-photo" src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=200&q=70" alt="Kebab" loading="lazy">
-      <div class="mi-body">
-        <div class="mi-name">Chicken Kebab Wrap</div>
-        <div class="mi-desc">Juicy grilled chicken, onions, peppers, garlic sauce</div>
-        <div class="mi-price">SCR 40</div>
-      </div>
-    </div>
-    <div class="menu-item" data-cat="creole">
-      <img class="mi-photo" src="https://images.unsplash.com/photo-1546549032-9571cd6b27df?w=200&q=70" alt="Noodles" loading="lazy">
-      <div class="mi-body">
-        <div class="mi-name">Asian Noodle Stir-Fry</div>
-        <div class="mi-desc">Wok-tossed noodles with vegetables and soy-ginger glaze</div>
-        <div class="mi-price">SCR 44</div>
-      </div>
-    </div>
-    <div class="menu-item" data-cat="chicken">
-      <img class="mi-photo" src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=200&q=70" alt="Chicken Burger" loading="lazy">
-      <div class="mi-body">
-        <div class="mi-name">Spicy Chicken Burger</div>
-        <div class="mi-desc">Crispy fillet, sriracha mayo, coleslaw, brioche bun</div>
-        <div class="mi-price">SCR 38</div>
-      </div>
-    </div>
-    <div class="menu-item" data-cat="wraps">
-      <img class="mi-photo" src="https://images.unsplash.com/photo-1551782450-17144efb9c50?w=200&q=70" alt="Pizza" loading="lazy">
-      <div class="mi-body">
-        <div class="mi-name">Pizza Slice</div>
-        <div class="mi-desc">Freshly baked, topped with cheese, tomato &amp; your choice</div>
-        <div class="mi-price">SCR 32</div>
-      </div>
-    </div>
-    <div class="menu-item" data-cat="drinks">
-      <img class="mi-photo" src="https://images.unsplash.com/photo-1541658016709-82535e94bc69?w=200&q=70" alt="Milkshake" loading="lazy">
-      <div class="mi-body">
-        <div class="mi-name">Milkshakes &amp; Cold Drinks</div>
-        <div class="mi-desc">Thick shakes, sodas, fresh juice and ice-cold beer</div>
-        <div class="mi-price">From SCR 20</div>
-      </div>
+</section>
+
+<!-- STORY -->
+<section id="story" class="story">
+  <div class="story-vis">
+    <div class="story-bg" id="spx"></div>
+    <div class="story-vgrad"></div>
+    <div class="story-badge"><div class="story-badge-n">2013</div><div class="story-badge-l">Est. Mahé, Seychelles</div></div>
+    <img class="story-inset" src="https://images.unsplash.com/photo-1597500307274-8df4350c5e5c?w=500&q=80" alt="Mahé, Seychelles" loading="lazy">
+  </div>
+  <div class="story-txt">
+    <div class="story-bnum">13</div>
+    <div class="stag">Our Story</div>
+    <h2 class="sh">Born in<br>the <em>Islands</em></h2>
+    <p class="story-p">Before there was a KFC or McDonald's in Seychelles, there was us. What started as a tiny outlet at Mont Fleuri — burgers, chips and sausages — struck such a nerve with locals that a chain was born.</p>
+    <p class="story-p">As a sister brand of Fresh-Cuts, Seychelles' most trusted meat retailer, quality has always been in our DNA. Today we serve everything from flame-grilled classics to authentic Creole dishes. Affordable, fresh, made with heart.</p>
+    <div class="sstats">
+      <div><div class="ssn">10+</div><div class="ssl">Years Serving</div></div>
+      <div><div class="ssn">3+</div><div class="ssl">Locations</div></div>
+      <div><div class="ssn">#1</div><div class="ssl">Local Fast Food</div></div>
     </div>
   </div>
 </section>
 
 <!-- GALLERY -->
-<div class="gallery" aria-label="Food gallery">
-  <div class="gallery-item">
-    <img class="gallery-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=75" alt="Grilled meat" loading="lazy">
-  </div>
-  <div class="gallery-item">
-    <img class="gallery-img" src="https://images.unsplash.com/photo-1432139509613-5c4255815697?w=400&q=75" alt="Fresh fries" loading="lazy">
-  </div>
-  <div class="gallery-item">
-    <img class="gallery-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=75" alt="Food spread" loading="lazy">
-  </div>
-  <div class="gallery-item">
-    <img class="gallery-img" src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&q=75" alt="Salad" loading="lazy">
-  </div>
-  <div class="gallery-item">
-    <img class="gallery-img" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=75" alt="Burgers" loading="lazy">
-  </div>
+<div class="gstrip">
+  <div class="gi"><img class="gi-img" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=75" alt="Grilled meat" loading="lazy"></div>
+  <div class="gi"><img class="gi-img" src="https://images.unsplash.com/photo-1506405211174-1c41d7bc9ed6?w=500&q=75" alt="Seychelles beach" loading="lazy"></div>
+  <div class="gi"><img class="gi-img" src="https://images.unsplash.com/photo-1553829176-61484f865ac3?w=500&q=75" alt="La Digue, Seychelles" loading="lazy"></div>
+  <div class="gi"><img class="gi-img" src="https://images.unsplash.com/photo-1597500307274-8df4350c5e5c?w=500&q=75" alt="Mahé coastline, Seychelles" loading="lazy"></div>
 </div>
 
 <!-- LOCATIONS -->
-<section id="locations" class="locations">
-  <div class="section-tag">Find Us</div>
-  <h2 class="section-title" style="margin-top:0.6rem;">Our <em style="color:var(--ember);font-style:italic;">Locations</em></h2>
-  <div class="loc-grid">
-    <div class="loc-card">
-      <img class="loc-map-img" src="https://images.unsplash.com/photo-1519999482648-25049ddd37b1?w=600&q=70" alt="Victoria Seychelles" loading="lazy">
-      <div class="loc-body">
-        <div class="loc-num">01</div>
-        <div class="loc-name">Unity House, Victoria</div>
-        <div class="loc-addr">Palm Street, Ground Floor, Block B<br>Unity House, Victoria, Mahé</div>
-        <div class="loc-open"><span class="loc-open-dot"></span> Open Now · 7am – 9pm</div>
-      </div>
+<section id="locations" class="sec locations">
+  <div class="stag">Find Us</div>
+  <h2 class="sh">Our <em>Locations</em></h2>
+  <div class="lgrid">
+    <div class="lc">
+      <iframe class="lc-map" src="https://maps.google.com/maps?q=-4.6175,55.4513&z=17&output=embed" loading="lazy" allowfullscreen></iframe>
+      <div class="lc-body"><div class="lc-num">01</div><div class="lc-name">Unity House, Victoria</div><div class="lc-addr">Palm Street, Ground Floor, Block B<br>Unity House, Victoria, Mahé</div><div class="lc-open"><span class="lopen-dot"></span>Open Now · 7am – 9pm</div></div>
     </div>
-    <div class="loc-card">
-      <img class="loc-map-img" src="https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=600&q=70" alt="Mont Fleuri" loading="lazy">
-      <div class="loc-body">
-        <div class="loc-num">02</div>
-        <div class="loc-name">Mont Fleuri</div>
-        <div class="loc-addr">Mont Fleuri, Southern Victoria<br>Mahé, Seychelles</div>
-        <div class="loc-open"><span class="loc-open-dot"></span> Open Now · 7am – 9pm</div>
-      </div>
+    <div class="lc">
+      <iframe class="lc-map" src="https://www.google.com/maps?q=Mont+Fleuri+Victoria+Mahe+Seychelles&output=embed" loading="lazy" allowfullscreen></iframe>
+      <div class="lc-body"><div class="lc-num">02</div><div class="lc-name">Mont Fleuri</div><div class="lc-addr">Mont Fleuri, Southern Victoria<br>Mahé, Seychelles</div><div class="lc-open"><span class="lopen-dot"></span>Open Now · 7am – 9pm</div></div>
     </div>
-    <div class="loc-card">
-      <img class="loc-map-img" src="https://images.unsplash.com/photo-1506084868230-bb9d95c24759?w=600&q=70" alt="Roche Caiman" loading="lazy">
-      <div class="loc-body">
-        <div class="loc-num">03</div>
-        <div class="loc-name">Roche Caiman — HQ</div>
-        <div class="loc-addr">PO Box 968, Roche Caiman<br>Mahé · Tel: +248 278 1203</div>
-        <div class="loc-open"><span class="loc-open-dot"></span> Open Now · 7am – 8pm</div>
-      </div>
+    <div class="lc">
+      <iframe class="lc-map" src="https://www.google.com/maps?q=Roche+Caiman+Mahe+Seychelles&output=embed" loading="lazy" allowfullscreen></iframe>
+      <div class="lc-body"><div class="lc-num">03</div><div class="lc-name">Roche Caiman — HQ</div><div class="lc-addr">PO Box 968, Roche Caiman, Mahé<br>Tel: +248 278 1203</div><div class="lc-open"><span class="lopen-dot"></span>Open Now · 7am – 8pm</div></div>
     </div>
   </div>
 </section>
 
 <!-- REVIEWS -->
-<section id="reviews" class="reviews">
-  <div class="section-tag">What People Say</div>
-  <h2 class="section-title" style="margin-top:0.6rem;">Loved by <em>Locals</em> &amp; Visitors</h2>
-  <div class="reviews-grid">
-    <div class="review-card">
-      <div class="review-quote">"</div>
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">Seychelles' own McDonald's — but honestly better. Burgers, kebab, chicken, Asian food… the variety is incredible and the prices are so reasonable.</p>
-      <div class="review-author">Visitor from Finland</div>
-      <div class="review-via">via Tripadvisor</div>
-    </div>
-    <div class="review-card">
-      <div class="review-quote">"</div>
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">Best quick lunch on the island. The Creole food is authentic and delicious. I visited three times in one week — says it all really.</p>
-      <div class="review-author">Sightseeing Tourist</div>
-      <div class="review-via">via Tripadvisor</div>
-    </div>
-    <div class="review-card">
-      <div class="review-quote">"</div>
-      <div class="review-stars">★★★★☆</div>
-      <p class="review-text">Ideal when everything else is closed on a public holiday. Good food, ice-cold beer and a proper Seychellois atmosphere. Will always come back.</p>
-      <div class="review-author">Local Regular</div>
-      <div class="review-via">via Facebook</div>
-    </div>
+<section id="reviews" class="sec reviews">
+  <div class="stag">What People Say</div>
+  <h2 class="sh">Loved by <em>Locals</em> &amp; Visitors</h2>
+  <div class="rgrid">
+    <div class="rc"><div class="rc-q">"</div><div class="rc-stars">★★★★★</div><p class="rc-text">Seychelles' own McDonald's — but honestly better. Burgers, kebab, chicken, Asian food… the variety is incredible and the prices are so reasonable.</p><div class="rc-auth">Visitor from Finland</div><div class="rc-via">via Tripadvisor</div></div>
+    <div class="rc"><div class="rc-q">"</div><div class="rc-stars">★★★★★</div><p class="rc-text">Best quick lunch on the island. The Creole food is authentic and delicious. I visited three times in one week — says it all really.</p><div class="rc-auth">Sightseeing Tourist</div><div class="rc-via">via Tripadvisor</div></div>
+    <div class="rc"><div class="rc-q">"</div><div class="rc-stars">★★★★☆</div><p class="rc-text">Ideal when everything else is closed on a public holiday. Good food, ice-cold beer and a proper Seychellois atmosphere. Always come back.</p><div class="rc-auth">Local Regular</div><div class="rc-via">via Facebook</div></div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="cta">
-  <div class="cta-bg"></div>
-  <div class="cta-overlay"></div>
-  <div class="cta-content">
-    <h2 class="cta-title">Ready to <em>Eat?</em></h2>
+<section class="cta-sec">
+  <div class="cta-parallax" id="cpx"></div>
+  <div class="cta-ov"></div>
+  <div class="cta-inner">
+    <h2 class="cta-h">READY TO <span>EAT?</span></h2>
     <p class="cta-sub">Come find us in Victoria. Fresh, fast, and always full of flavour.</p>
-    <div class="cta-btns">
-      <button class="btn-fire" onclick="document.getElementById('locations').scrollIntoView({behavior:'smooth'})">Find a Location</button>
-      <button class="btn-ghost" onclick="document.getElementById('menu-full').scrollIntoView({behavior:'smooth'})">See Full Menu</button>
+    <div class="cta-row">
+      <button class="btn-cta" onclick="document.getElementById('locations').scrollIntoView({behavior:'smooth'})">Find a Location<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      <button class="btn-ghost" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">See Full Menu</button>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-top">
-    <div>
-      <div class="footer-brand-logo">The <span>Butcher's</span> Grill</div>
-      <p class="footer-brand-desc">Seychelles' original fast food chain. Fresh, affordable, and made with island pride since 2013. A Fresh-Cuts company.</p>
-    </div>
-    <div>
-      <div class="footer-col-title">Quick Links</div>
-      <ul class="footer-links">
-        <li><a href="#dishes">Menu</a></li>
-        <li><a href="#story">Our Story</a></li>
-        <li><a href="#locations">Locations</a></li>
-        <li><a href="#reviews">Reviews</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">Locations</div>
-      <ul class="footer-links">
-        <li><a href="#">Unity House, Victoria</a></li>
-        <li><a href="#">Mont Fleuri</a></li>
-        <li><a href="#">Roche Caiman</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">Contact</div>
-      <ul class="footer-links">
-        <li><a href="tel:+2482781203">+248 278 1203</a></li>
-        <li><a href="mailto:ceo@freshcut.sc">ceo@freshcut.sc</a></li>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Tripadvisor</a></li>
-      </ul>
-    </div>
+  <div class="ftop">
+    <div><div class="fbrand">The <span>Butcher's</span> Grill</div><p class="fbio">Seychelles' original fast food chain. Fresh, affordable, and made with island pride since 2013. A Fresh-Cuts company.</p></div>
+    <div><div class="fh">Quick Links</div><ul class="flinks"><li><a href="#dishes">Menu</a></li><li><a href="#story">Our Story</a></li><li><a href="#locations">Locations</a></li><li><a href="#reviews">Reviews</a></li></ul></div>
+    <div><div class="fh">Locations</div><ul class="flinks"><li><a href="#">Unity House</a></li><li><a href="#">Mont Fleuri</a></li><li><a href="#">Roche Caiman</a></li></ul></div>
+    <div><div class="fh">Contact</div><ul class="flinks"><li><a href="tel:+2482781203">+248 278 1203</a></li><li><a href="mailto:ceo@freshcut.sc">ceo@freshcut.sc</a></li><li><a href="#">Facebook</a></li><li><a href="#">Tripadvisor</a></li></ul></div>
   </div>
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2025 The Butcher's Grill · A Fresh-Cuts Company · Victoria, Seychelles</div>
-    <div class="footer-flag">🇸🇨 Made in Seychelles</div>
-  </div>
+  <div class="fbot"><div class="fcopy">© 2025 The Butcher's Grill · A Fresh-Cuts Company · Victoria, Seychelles</div><div class="fcopy">🇸🇨 Made in Seychelles</div></div>
 </footer>
 
 <script>
-  // NAV scroll effect
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
+/* ─── NAV ─── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>60),{passive:true});
 
-  // Menu filter
-  function filterMenu(btn, cat) {
-    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.menu-item').forEach(item => {
-      item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'flex' : 'none';
-    });
+/* ─── MOBILE BURGER ─── */
+function showBurgerIfMobile(){
+  const burger=document.getElementById('burger');
+  if(burger) burger.style.display=window.innerWidth<=600?'flex':'none';
+}
+showBurgerIfMobile();
+window.addEventListener('resize',showBurgerIfMobile);
+
+let drawerOpen=false;
+function toggleDrawer(){
+  drawerOpen=!drawerOpen;
+  const d=document.getElementById('drawer');
+  const b=document.getElementById('burger');
+  d.style.transform=drawerOpen?'translateX(0)':'translateX(100%)';
+  const spans=b.querySelectorAll('span');
+  if(drawerOpen){
+    spans[0].style.cssText='width:24px;height:2px;background:#fff;display:block;transform:rotate(45deg) translate(5px,5px)';
+    spans[1].style.cssText='width:24px;height:2px;background:#fff;display:block;opacity:0';
+    spans[2].style.cssText='width:24px;height:2px;background:#fff;display:block;transform:rotate(-45deg) translate(4px,-4px)';
+  } else {
+    spans[0].style.cssText='width:24px;height:2px;background:#fff;display:block;transform:none';
+    spans[1].style.cssText='width:24px;height:2px;background:#fff;display:block;opacity:1';
+    spans[2].style.cssText='width:16px;height:2px;background:#fff;display:block;transform:none';
   }
+}
+function closeDrawer(){
+  drawerOpen=true;
+  toggleDrawer();
+}
 
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
+/* ─── PARALLAX ─── */
+const hpx=document.getElementById('hpx');
+const spx=document.getElementById('spx');
+const cpx=document.getElementById('cpx');
+function doParallax(){
+  const y=scrollY;
+  if(hpx) hpx.style.transform=`translateY(${y*0.35}px)`;
+  if(spx){
+    const sb=spx.closest('.story-vis');
+    if(sb){const r=sb.getBoundingClientRect();spx.style.transform=`translateY(${(r.top+r.height/2-innerHeight/2)*0.18}px)`;}
+  }
+  if(cpx){
+    const cb=cpx.closest('.cta-sec');
+    if(cb){const r=cb.getBoundingClientRect();cpx.style.transform=`translateY(${(r.top+r.height/2-innerHeight/2)*0.22}px)`;}
+  }
+}
+window.addEventListener('scroll',doParallax,{passive:true});
+doParallax();
 
-  document.querySelectorAll('.dish-card, .menu-item, .loc-card, .review-card, .story-content').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
+/* ─── CURSOR ─── */
+const cur=document.getElementById('cur');
+const curD=document.getElementById('curD');
+const curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+function animCur(){
+  curD.style.left=mx+'px'; curD.style.top=my+'px';
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  curR.style.left=Math.round(rx)+'px'; curR.style.top=Math.round(ry)+'px';
+  requestAnimationFrame(animCur);
+}
+animCur();
+
+/* ─── SCROLL REVEAL ─── */
+const reveals=document.querySelectorAll('.dc,.mi,.lc,.rc,.story-txt,.hstat');
+reveals.forEach(el=>{el.style.cssText+='opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)'});
+const io=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting){
+    setTimeout(()=>{e.target.style.opacity='1';e.target.style.transform='none'},i*60);
+    io.unobserve(e.target);
+  }})
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+reveals.forEach(el=>io.observe(el));
+
+/* ─── MENU FILTER ─── */
+function fmenu(btn,cat){
+  document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.mi').forEach(item=>{
+    const show=cat==='all'||item.dataset.c===cat;
+    item.style.display=show?'flex':'none';
   });
+}
+
+/* ─── STAGGERED CHILDREN ─── */
+document.querySelectorAll('.dishes-layout .dc').forEach((el,i)=>{
+  el.style.transitionDelay=`${i*0.07}s`;
+});
 </script>
 </body>
 </html>
